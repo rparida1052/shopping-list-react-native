@@ -9,3 +9,7 @@ we can get out pixel size by using // PixelRatio.get() :// here pixelRatio comes
 
 ## TIPS:- 
 For properties like border and borderRadius try to use even numbers for betterr result.
+<!--  -->
+##Tips:=
+To make a component that take the overal screen height with absolute position is like
+<View StyleSheet.>
