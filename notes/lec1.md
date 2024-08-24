@@ -12,4 +12,5 @@ For properties like border and borderRadius try to use even numbers for betterr 
 <!--  -->
 ##Tips:=
 To make a component that take the overal screen height with absolute position is like
-<View StyleSheet.>
+<View style={[StyleSheet.absoluteFill,{backgroundColor:"pink"}]}/>
+It makes the background of the page to pink

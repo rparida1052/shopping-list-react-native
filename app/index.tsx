@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { Alert, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import ShoppingListItems from "./components/ShoppingListItems";
+import ShoppingListItems from "../components/ShoppingListItems";
 
 export default function App() {
 
