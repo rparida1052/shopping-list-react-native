@@ -1,0 +1,1 @@
+if you want to add styles like padding and margin to scrollview then you must use "contenContainerStyle insted of normal style"

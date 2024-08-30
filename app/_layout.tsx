@@ -8,7 +8,7 @@ export default function Layout(){
         <Tabs.Screen
           name="index"
           options={{
-            title: "Home screen",
+            title: "Shopping list screen",
             tabBarIcon: ({size,color}) => (
               <AntDesign name="menufold" size={size} color={color} />
             ),
