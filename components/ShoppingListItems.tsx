@@ -1,6 +1,8 @@
 import { Alert, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { theme } from "../theme";
+import Entypo from "@expo/vector-icons/Entypo";
+
 
 
 type Props = {
@@ -26,9 +28,30 @@ const ShoppingListItems = ({ name ,onDelete,onComplete,isComplete}:Props) => {
   };
   return (
     <Pressable onPress={onComplete}>
-      <View style={styles.itemContainer}>
-        <Text style={[{ fontSize: 18, fontWeight: "semibold" },isComplete?{textDecorationLine:"line-through"}:{textDecorationLine:"none"}]}>{name}</Text>
-        <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+      <View
+        style={[
+          styles.itemContainer,
+          isComplete ? { backgroundColor: "grey" } : undefined,
+        ]}>
+        <View style={{flexDirection:"row",gap:8}}>
+          <Entypo name={isComplete ? "check" : "circle"} size={24} color="black" />
+          <Text
+            style={[
+              { fontSize: 18, fontWeight: "semibold" },
+              isComplete
+                ? { textDecorationLine: "line-through" }
+                : { textDecorationLine: "none" },
+            ]}>
+            {name}
+          </Text>
+        </View>
+
+       {!isComplete && <TouchableOpacity
+          style={[
+            styles.deleteButton,
+           
+          ]}
+          onPress={isComplete ? undefined : onDelete}>
           <Text
             style={{
               color: "white",
@@ -37,7 +60,7 @@ const ShoppingListItems = ({ name ,onDelete,onComplete,isComplete}:Props) => {
             }}>
             Delete
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity>}
       </View>
     </Pressable>
   );
