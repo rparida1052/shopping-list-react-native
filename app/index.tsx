@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import {
   Alert,
+  FlatList,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -17,13 +18,14 @@ import { useState } from "react";
 type shoppingListItemType = {
   id: string;
   name: string;
+  completeAt?: number;
 };
 
 const initialShoppingList: shoppingListItemType[] = [
-  { id: "1", name: "Tea" },
-  { id: "2", name: "Coffee" },
-  { id: "3", name: "Milk" },
-  { id: "4", name: "Bread" },
+  // { id: "1", name: "Tea" },
+  // { id: "2", name: "Coffee" },
+  // { id: "3", name: "Milk" },
+  // { id: "4", name: "Bread" },
 ];
 export default function App() {
   const [shoppingList, setShoppingList] =
@@ -39,14 +41,41 @@ export default function App() {
     }
     setValue("");
   };
+  const handleDelete = (id: string) => {
+    const newShoppingList = shoppingList.filter((item) => item.id !== id);
+    setShoppingList(newShoppingList);
+  };
+  const handleComplete = (id: string) => {
+    const newShoppingList = shoppingList.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          completeAt: item.completeAt ? undefined : Date.now(),
+        };
+      }
+      return item;
+    });
+    setShoppingList(newShoppingList);
+  };
   return (
-    <ScrollView
-      style={{ backgroundColor: theme.colorCerulean }}
-      // stickyHeaderIndices={[0]}
-      contentContainerStyle={{paddingTop:24}}
-      >
-      <View style={styles.container}>
-        <View style={[StyleSheet.absoluteFill, { marginHorizontal: 154 }]} />
+    <FlatList
+      data={shoppingList}
+      renderItem={({ item }) => {
+        return (
+          <ShoppingListItems
+            name={item.name}
+            onDelete={() => handleDelete(item.id)}
+            onComplete={() => handleComplete(item.id)}
+            isComplete={Boolean(item.completeAt)}
+          />
+        );
+      }}
+      ListEmptyComponent={
+        <View style={styles.emptyList}>
+          <Text>Your shoppinglist is empty</Text>
+        </View>
+      }
+      ListHeaderComponent={
         <TextInput
           placeholder="Eg. coffee"
           style={styles.textInput}
@@ -54,20 +83,15 @@ export default function App() {
           onChangeText={setValue}
           onSubmitEditing={handleAddItem}
         />
-
-        {shoppingList.map((item) => (
-          <ShoppingListItems name={item.name} key={item.id} />
-        ))}
-        <StatusBar style="auto" />
-      </View>
-    </ScrollView>
+      }
+    />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingBottom:12,
+    paddingBottom: 12,
   },
   textInput: {
     height: 50,
@@ -82,5 +106,10 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     borderRadius: 10,
+  },
+  emptyList: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 25,
   },
 });

@@ -1,13 +1,20 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { theme } from "../theme";
 
-const ShoppingListItems = ({ name }: { name: string }) => {
+
+type Props = {
+  name:string;
+  onDelete:()=> void;
+  onComplete:()=>void;
+  isComplete?:boolean;
+}
+const ShoppingListItems = ({ name ,onDelete,onComplete,isComplete}:Props) => {
   const handleDelete = () => {
     Alert.alert("Are you sure you want to delete this item?", "It will good", [
       {
         text: "Yes",
-        onPress: () => console.log("Deleting"),
+        onPress: () => onDelete(),
         style: "destructive",
       },
       {
@@ -18,9 +25,9 @@ const ShoppingListItems = ({ name }: { name: string }) => {
     ]);
   };
   return (
-    <View>
+    <Pressable onPress={onComplete}>
       <View style={styles.itemContainer}>
-        <Text style={{ fontSize: 18, fontWeight: "semibold" }}>{name}</Text>
+        <Text style={[{ fontSize: 18, fontWeight: "semibold" },isComplete?{textDecorationLine:"line-through"}:{textDecorationLine:"none"}]}>{name}</Text>
         <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
           <Text
             style={{
@@ -32,7 +39,7 @@ const ShoppingListItems = ({ name }: { name: string }) => {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
